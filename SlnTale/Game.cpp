@@ -1,20 +1,19 @@
 ﻿
 #include "stdafx.h"
 #include "player.h"
+#include "SceneManager.h"
+
 
 #pragma comment(lib, "user32")
 int main()
 {
 
 	::SendMessage(::GetConsoleWindow(), WM_SYSKEYDOWN, VK_RETURN, 0x20000000);
-	float x = 0;
-	player* p = new player(Vector2(10,10));
 
-	p->Init();
-
+	SceneManager::GetInstance().Init();
 	while (true)
 	{
-		p->Update();
-		p->Render();
+		SceneManager::GetInstance().Update();
+		SceneManager::GetInstance().Render();
 	}
 }

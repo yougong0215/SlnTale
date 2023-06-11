@@ -4,11 +4,16 @@
 #include <vector>
 #include <string>
 #include <conio.h>
-
-
+#include <map>
+#include <fstream>
+//#include <mmsystem.h>
 //////////////////////////////
 #include "Console.h"
 #include "Timer.h"
+#pragma comment(lib, "winmm.lib")
+
+#pragma comment(lib, "user32")
+
 
 #define WIDTHMAX 117
 
@@ -22,7 +27,6 @@
 #define SAFE_RELEASE(p)            {if(p) { p->Release(); (p) = 0; } }
 
 static Timer Time;
-#pragma comment(lib, "user32")
 
 using namespace std;
 
@@ -60,6 +64,15 @@ public:
 		return false;
 
 	}
+	bool operator!=(Vector2 v)
+	{
+		if (x != v.x || y != v.y)
+		{
+			return true;
+		}
+		return false;
+
+	}
 
 	void operator+=(Vector2 v1)
 	{
@@ -77,5 +90,11 @@ public:
 	{
 		x *= v1;
 		y *= v1;
+	}
+
+	Vector2 operator/(int v1)
+	{
+
+		return Vector2(x / v1, y / v1);
 	}
 };

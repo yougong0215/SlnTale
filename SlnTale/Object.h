@@ -15,6 +15,15 @@ public:
 	virtual void Update();
 	virtual void Render();
 	virtual void Release();
+
+	virtual void SetPosition(Vector2 vec)
+	{
+		*position = vec;
+	}
+	virtual Vector2 GetPosition()
+	{
+		return *position;
+	}
 	
 public:
 	char Image()
