@@ -25,11 +25,6 @@ public:
 		return *position;
 	}
 	
-public:
-	char Image()
-	{
-		return _image;
-	}
 
 public:
 	Vector2* position;

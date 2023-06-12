@@ -12,6 +12,7 @@ Object::Object()
 
 Object::Object(Vector2 pos)
 {
+	position = new Vector2(pos);
 	*position = pos;
 	newPosition = new Vector2(0, 0);
 	tag = Tag::None;
@@ -22,7 +23,7 @@ Object::Object(Vector2 pos)
 
 Object::Object(char ch, Vector2 pos, Tag tag)
 {
-	*position = pos;
+	position = new Vector2(pos);
 	newPosition = new Vector2(0, 0);
 	this->tag = tag;
 	_image = ch;

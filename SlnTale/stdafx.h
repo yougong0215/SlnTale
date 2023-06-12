@@ -6,10 +6,11 @@
 #include <conio.h>
 #include <map>
 #include <fstream>
+#include <list>
+#include <memory>
+
 //#include <mmsystem.h>
 //////////////////////////////
-#include "Console.h"
-#include "Timer.h"
 #pragma comment(lib, "winmm.lib")
 
 #pragma comment(lib, "user32")
@@ -26,7 +27,22 @@
 
 #define SAFE_RELEASE(p)            {if(p) { p->Release(); (p) = 0; } }
 
-static Timer Time;
+#define DECLARE_SINGLE(type)	\
+private:						\
+	type() {}					\
+	~type() {}					\
+public:							\
+	static type* GetInstance()	\
+	{							\
+		static type instance;	\
+		return &instance;		\
+	}							\
+
+#define GET_SINGLE(type)	type::GetInstance()
+
+#include "Console.h"
+#include "Timer.h"
+
 
 using namespace std;
 
@@ -36,6 +52,17 @@ enum class Tag
 	Player,
 	Arrow,
 	Wall
+};
+
+enum class walls
+{
+	None = 0,
+	LeftUP = 1,
+	Up = 2,
+	RightUP = 3,
+	Left = 4,
+	LeftDown,
+	RightDown,
 };
 
 typedef struct Vector2
@@ -98,3 +125,5 @@ public:
 		return Vector2(x / v1, y / v1);
 	}
 };
+
+

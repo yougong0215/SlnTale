@@ -1,21 +1,18 @@
-#include "Timer.h"
-#include <Windows.h>
-Timer::Timer()
-{
+#include "stdafx.h"
 
+
+
+void Timer::Init()
+{
     QueryPerformanceFrequency((LARGE_INTEGER*)&periodFrequency);
-   
+
 
 
     QueryPerformanceCounter((LARGE_INTEGER*)&lastTime);
-   
+
 
     timeScale = 1.0 / (double)periodFrequency;
-    
-}
 
-Timer::~Timer()
-{
 }
 
 void Timer::Update()

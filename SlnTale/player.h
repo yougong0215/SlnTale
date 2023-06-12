@@ -29,18 +29,33 @@ public:
 		return *position;
 	}
 
+	void Damaged(int t)
+	{
+		if (infintyTime < 0)
+		{
+			infintyTime = baseInfintime;
+			hp -= t;
+		}
+	}
+
 public:
 	void Gravity(Vector2& vec);
 	void SetModify(PlayerMode mod);
+	void PlayerRender();
 
 private:
 	float speed = 0;
 
+	float infintyTime = 0.4f;
+	float baseInfintime = 0.4f;
+
 	int hp = 1000;
+	int oldhp = -1;
 	int maxhp = 1000;
 
 
 	float moveSpeed = 0.05f;
+
 	float gravitymove = 0;
 	float gravitySpeed = 0.045f;
 	float jumptime = 0.6f;
