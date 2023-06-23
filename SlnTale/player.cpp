@@ -35,11 +35,20 @@ void player::Init()
 
 void player::Update()
 {
+
+
+	if (GetAsyncKeyState(VK_ESCAPE) & 0x8000)
+
+	{
+		SceneManager::GetInstance().LoadScene(L"Over");
+		return;
+	}
+
 	speed += GET_SINGLE(Timer)->DeltaTime();
 	infintyTime -= GET_SINGLE(Timer)->DeltaTime();
 	*newPosition = *position;
-	if (GetAsyncKeyState(VK_SPACE) & 0x8000 ? 1 : 0)
-		SetModify(PlayerMode::gravity);
+	//if (GetAsyncKeyState(VK_SPACE) & 0x8000 ? 1 : 0)
+	//	SetModify(PlayerMode::gravity);
 
 
 	static Vector2 vec = *SceneManager::GetInstance().pos();
@@ -83,7 +92,7 @@ void player::Update()
 			break;
 		case PlayerMode::gravity:
 
-			if (GetAsyncKeyState(VK_UP) & 0x8000)
+			if ((GetAsyncKeyState(VK_UP) & 0x8000) || (GetAsyncKeyState(VK_SPACE) & 0x8000))
 			{
 
 				if (gravityInput < jumptime && position->y > 0 && SceneManager::GetInstance().v()[position->y - vec.y - 1][position->x - vec.x] == 0)
@@ -92,7 +101,7 @@ void player::Update()
 				}
 			}
 
-			if (GetAsyncKeyState(VK_UP) & 0x8000 ? 0 : 1)
+			if ((GetAsyncKeyState(VK_UP) & 0x8000) || (GetAsyncKeyState(VK_SPACE) & 0x8000) ? 0 : 1)
 			{
 				gravityInput = jumptime;
 			}
@@ -121,17 +130,17 @@ void player::Update()
 
 void player::Render()
 {
+	if (hp <= 0)
+	{
+
+	}
 
 
-		SceneManager::GetInstance().ScreenPrint(55, 57, "┏━━━━━━━━━━━━━━━━┓");
-		Gotoxy(55, 58);
-		string a = "┃ HP : ";
+		string a = "HP : ";
 		a += to_string(hp);
 		a += " / ";
 		a += to_string(maxhp);
-		a += "\t┃";
 		SceneManager::GetInstance().ScreenPrint(55, 58, a);
-		SceneManager::GetInstance().ScreenPrint(55, 59, "┗━━━━━━━━━━━━━━━━┛");
 	
 
 	//if(infintyTime < 0)

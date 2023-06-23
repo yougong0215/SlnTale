@@ -9,6 +9,7 @@
 #include <list>
 #include <memory>
 #include <Windows.h>
+#include <mmsystem.h>
 
 //#include <mmsystem.h>
 //////////////////////////////
@@ -48,15 +49,13 @@ public:							\
 using namespace std;
 
 
-
-
-
 enum class ArrowMod
 {
 	normal = 0,
 	shipja,
 	WaSans,
 	SAS,
+	Miro,
 };
 
 
@@ -137,6 +136,20 @@ public:
 	{
 
 		return Vector2(x / v1, y / v1);
+	}
+
+	float magnitude() {
+		return sqrt(x * x + y * y);
+	}
+
+	Vector2 normalize() {
+		float mag = magnitude();
+		if (mag != 0.0f) {
+			x /= mag;
+			y /= mag;
+		}
+
+		return *this;
 	}
 };
 

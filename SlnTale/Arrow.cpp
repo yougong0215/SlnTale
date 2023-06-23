@@ -89,7 +89,7 @@ void Arrow::Update()
 					pos += Vector2(j, i);
 					if (posed == pos)
 					{
-						SceneManager::GetInstance().GetPlayer()->Damaged(100);
+						SceneManager::GetInstance().GetPlayer()->Damaged(damage);
 					}
 				}
 			}
@@ -213,6 +213,8 @@ wstring Arrow::SetArrowModify(ArrowMod mod)
 		break;
 	case ArrowMod::SAS:
 		return L"SAS";
+	case ArrowMod::Miro:
+		return L"Miro";
 	default:
 		break;
 	}

@@ -28,6 +28,8 @@ public:
 
 
 public:
+	bool GameEnd = false;
+
 	void ScreenFlipping()  // 스크린 바꾸는거
 	{
 		SetConsoleActiveScreenBuffer(g_hScreen[g_nScreenIndex]);
@@ -80,6 +82,8 @@ public:
 	int g_numOfFPS;//분당 프레임
 	
 	char* FPSTextInfo;//콘솔에 출력할 char 포인터
+
+	float GameTime = .0f;
 
 public:
 	float renderSpeed =0.3f;

@@ -24,12 +24,12 @@ void StartScene::Init()
 	b2.push_back("| |              | || |              | || |              | || |              | || |              | || |              | || |              | |");
 	b2.push_back("| '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |");
 	b2.push_back("'----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------' ");
-
+	updateTIme = 0.5f;
 }
 
 void StartScene::Update()
 {
-	GET_SINGLE(Timer)->Update();
+	//GET_SINGLE(Timer)->Update();
 	udpatecur += GET_SINGLE(Timer)->DeltaTime();
 
 	if (updateTIme < udpatecur)
@@ -41,6 +41,7 @@ void StartScene::Update()
 				selectnum--;
 
 			}
+			updateTIme = 0.1f;
 			udpatecur = 0;
 		}
 
@@ -50,11 +51,33 @@ void StartScene::Update()
 		{
 			if (selectnum < 3)
 				selectnum++;
+
+			updateTIme = 0.1f;
 			udpatecur = 0;
+
 		}
 
 
 	}
+
+	if(GetAsyncKeyState(VK_RETURN) & 0x8000 ? 1 : 0)
+	switch (selectnum)
+	{
+	case 1:
+		SceneManager::GetInstance().LoadScene(L"Game");
+		break;
+	case 2:
+		SceneManager::GetInstance().LoadScene(L"Ex");
+		//SceneManager::GetInstance().ScreenPrint(pos->x, pos->y + 3, ">");
+		break;
+	case 3:
+		SceneManager::GetInstance().GameEnd = true;
+		//SceneManager::GetInstance().ScreenPrint(pos->x, pos->y + 6, ">");
+		break;
+	default:
+		break;
+	}
+
 
 
 
@@ -67,6 +90,9 @@ void StartScene::Render()
 
 void StartScene::Release()
 {
+	v.clear();
+	v2.clear();
+	b2.clear();
 }
 
 void StartScene::ViewMap()
@@ -83,25 +109,25 @@ void StartScene::ViewMap()
 	i = 0;
 	pos = new Vector2(110, 40);
 
-	SceneManager::GetInstance().ScreenPrint(pos->x, pos->y + i, " 게임 시작");
+	SceneManager::GetInstance().ScreenPrint(pos->x, pos->y + i, "  게임 시작");
 	i += 3;
 
-	SceneManager::GetInstance().ScreenPrint(pos->x, pos->y + i, " 게임 설명");
+	SceneManager::GetInstance().ScreenPrint(pos->x, pos->y + i, "  게임 설명");
 	i += 3;
 
-	SceneManager::GetInstance().ScreenPrint(pos->x, pos->y + i, " 게임 종료");
+	SceneManager::GetInstance().ScreenPrint(pos->x, pos->y + i, "  게임 종료");
 	i += 3;
 
 	switch (selectnum)
 	{
 	case 1:
-		SceneManager::GetInstance().ScreenPrint(pos->x, pos->y, ">");
+		SceneManager::GetInstance().ScreenPrint(pos->x, pos->y, "♥", COLOR::RED);
 		break;
 	case 2:
-		SceneManager::GetInstance().ScreenPrint(pos->x, pos->y + 3, ">");
+		SceneManager::GetInstance().ScreenPrint(pos->x, pos->y + 3, "♥", COLOR::RED);
 		break;
 	case 3:
-		SceneManager::GetInstance().ScreenPrint(pos->x, pos->y + 6, ">");
+		SceneManager::GetInstance().ScreenPrint(pos->x, pos->y + 6, "♥", COLOR::RED);
 		break;
 	default:
 		break;

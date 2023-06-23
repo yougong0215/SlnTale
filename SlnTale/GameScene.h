@@ -1,6 +1,7 @@
 #pragma once
 #include "Scene.h"
 
+class ArrowInstance;
 class GameScene : public Scene
 {
 public:
@@ -19,7 +20,7 @@ public:
 	void SetMap();
 
 public:
-
+	ArrowInstance* ArrowSommon;
 
 };
 

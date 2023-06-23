@@ -48,7 +48,7 @@ void SceneManager::Init()
 	cci.bVisible = FALSE;
 	SetConsoleCursorInfo(g_hScreen[0], &cci);
 	SetConsoleCursorInfo(g_hScreen[1], &cci);
-
+	GET_SINGLE(Timer)->Init();
 	//if (m_activeScene != nullptr)
 	//{
 	//	m_activeScene->Init();
@@ -61,9 +61,11 @@ void SceneManager::Init()
 void SceneManager::Update()
 {
 	rendering += GET_SINGLE(Timer)->DeltaTime();
+
 	GET_SINGLE(Timer)->Update();
 	if (m_activeScene != nullptr)
 	{
+
 		m_activeScene->Update();
 	}
 }
@@ -74,9 +76,10 @@ void SceneManager::Render()
 	{
 		g_numOfFPS = g_numOfFrame;
 		g_numOfFrame = 0;
-		rendering = 0;
+		rendering = 0; 
 
 	}
+
 
 
 	ScreenFlipping();

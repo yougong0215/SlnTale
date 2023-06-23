@@ -18,7 +18,7 @@ public:
 
 private:
 	int selectnum = 1;
-	float updateTIme = 0.5f;
+	float updateTIme = 0.1f;
 	float udpatecur = 0;
 };
 

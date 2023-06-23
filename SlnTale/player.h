@@ -42,7 +42,10 @@ public:
 	void Gravity(Vector2& vec);
 	void SetModify(PlayerMode mod);
 	void PlayerRender();
-
+	int GetHP()
+	{
+		return hp;
+	}
 private:
 	float speed = 0;
 
