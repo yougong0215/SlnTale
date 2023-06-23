@@ -1,12 +1,7 @@
 #pragma once
 #include "Object.h"
 
-enum class ArrowMod
-{
-	normal = 0,
-	shipja,
-	WaSans,
-};
+
 
 enum class ArrowModify
 {
@@ -36,7 +31,7 @@ public:
 	Arrow(Vector2 pos, Tag tag);
 	Arrow(Vector2 pos, Tag tag, float moveSpeed, Vector2 dir);
 	Arrow(Vector2 pos, Tag tag, float moveSpeed, Vector2 dir, int Damaged = 100, float LifeTime = 2.0f, ArrowMod moded = ArrowMod::normal);
-	~Arrow();
+	virtual ~Arrow();
 
 	void Init() override;
 	void Update() override;
@@ -62,7 +57,7 @@ public:
 
 public:
 	Vector2 dir;
-	float speed = 0;
+	double speed = 0;
 	float moveSpeed = 0.2f;
 
 	int damage = 100;

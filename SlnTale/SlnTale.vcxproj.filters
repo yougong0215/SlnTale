@@ -1,42 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="헤더 파일">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Object">
       <UniqueIdentifier>{c1a33419-ee5c-48f5-a3b5-35666c14c58c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="소스 파일">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
     <Filter Include="Scene">
       <UniqueIdentifier>{3389dfbe-35ff-4a1d-8605-49b07068276f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Normal">
+      <UniqueIdentifier>{7de09a20-7a59-4c19-83e1-db3095a3a45d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Console.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="player.cpp">
       <Filter>Object</Filter>
     </ClCompile>
     <ClCompile Include="Object.cpp">
       <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="MainScene.cpp">
-      <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Scene</Filter>
@@ -47,25 +27,31 @@
     <ClCompile Include="ArrowManager.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Normal</Filter>
+    </ClCompile>
+    <ClCompile Include="ArrowInstance.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="StartScene.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Console.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
-    <ClInclude Include="Timer.h">
-      <Filter>헤더 파일</Filter>
-    </ClInclude>
     <ClInclude Include="Object.h">
       <Filter>Object</Filter>
     </ClInclude>
     <ClInclude Include="player.h">
       <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="MainScene.h">
-      <Filter>헤더 파일</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Scene</Filter>
@@ -76,5 +62,20 @@
     <ClInclude Include="ArrowManager.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Normal</Filter>
+    </ClInclude>
+    <ClInclude Include="ArrowInstance.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="GameScene.h" />
+    <ClInclude Include="StartScene.h" />
   </ItemGroup>
 </Project>

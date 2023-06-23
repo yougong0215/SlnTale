@@ -1,4 +1,3 @@
-
 #include "stdafx.h"
 #include "Arrow.h"
 #include "SceneManager.h"
@@ -79,6 +78,7 @@ void Arrow::Update()
 		speed = 0;
 		*newPosition += dir;
 		int i, j;
+		Vector2 posed = SceneManager::GetInstance().GetPlayer()->GetPosition();
 		for (i = 0; i < v.size(); i++)
 		{
 			for (j = 0; j < v[i].size(); j++)
@@ -87,13 +87,14 @@ void Arrow::Update()
 				{
 					Vector2 pos = *newPosition;
 					pos += Vector2(j, i);
-					if (SceneManager::GetInstance().GetPlayer()->GetPosition() == pos)
+					if (posed == pos)
 					{
 						SceneManager::GetInstance().GetPlayer()->Damaged(100);
 					}
 				}
 			}
 		}
+		*position = *newPosition;
 
 	}
 
@@ -102,99 +103,84 @@ void Arrow::Update()
 
 void Arrow::Render()
 {
-	static Vector2 vec = *SceneManager::GetInstance().pos;
-	static Vector2 vec2 = *SceneManager::GetInstance().WH;
+	static Vector2 vec = *SceneManager::GetInstance().pos();
+	static Vector2 vec2 = *SceneManager::GetInstance().WH();
 	{
-		//GotoxyPlayer(position->x, position->y);
 		int i, j;
-		for (i = 0; i < v.size(); i++)
-		{
-			for (j = 0; j < v[i].size(); j++)
-			{
-				GotoxyPlayer(position->x + j, position->y + i);
-				if (position->y + i + 1 > vec.y && position->y < position->y - 1 + i< vec.y + vec2.y
-					&& position->x + j - 1> vec.x && position->x + j + 1 < vec.x + vec2.x)
-					cout << "  ";
-			}
-		}
-		*position = *newPosition;
 
 		for (i = 0; i < v.size(); i++)
 		{
-			Gotoxy(0, 0);
-			cout << position->x << "  ";
-			cout << position->y;
 			for (j = 0; j < v[i].size(); j++)
 			{
-				GotoxyPlayer(position->x + j, position->y + i);
-				if (position->y + i + 1 > vec.y && position->y < position->y - 1 + i< vec.y + vec2.y
-					&& position->x + j - 1> vec.x && position->x + j + 1 < vec.x + vec2.x)
+				if (position->y + i > vec.y && position->y + 1 + i < vec.y + vec2.y
+					&& position->x + j - 1> vec.x && position->x + j + 2 < vec.x + vec2.x)
 					if (mod == ArrowMod::normal)
 					{
 						if (dir.x > 0 && dir.y == 0)
-							cout << "⊥";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "⊥");
 						if (dir.x < 0 && dir.y == 0)
-							cout << "∠";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "∠");
 						if (dir.x == 0 && dir.y > 0)
-							cout << "⊿";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "⊿");
 						if (dir.x == 0 && dir.y < 0)
-							cout << "∟";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "∟");
 						if (dir.x < 0 && dir.y < 0)
-							cout << "Ｊ";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "Ｊ");
 						if (dir.x < 0 && dir.y > 0)
-							cout << "Ｈ";
-						if (dir.x > 0 && dir.y < 0)
-							cout << "Ｉ";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "Ｈ");
+						if (dir.x > 0  && dir.y < 0)
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "Ｉ");
 						if (dir.x > 0 && dir.y > 0)
-							cout << "Ｋ";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "Ｋ");
 					}
 					else {
 						switch ((ArrowModify)v[i][j])
 						{
 						case ArrowModify::Up:
-							cout << "∟";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "∟");
 							break;
 						case ArrowModify::Left:
-							cout << "∠";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "∠");
 							break;
+
 						case ArrowModify::Right:
-							cout << "⊥";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "⊥");
 							break;
 						case ArrowModify::Down:
-							cout << "⊿";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "⊿");
 							break;
 						case ArrowModify::UpLeft:
-							cout << "Ｊ";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "Ｊ");
 							break;
 						case ArrowModify::UpRight:
-							cout << "Ｈ";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "Ｈ");
 							break;
 						case ArrowModify::DownLeft:
-							cout << "Ｉ";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "Ｉ");
 							break;
 						case ArrowModify::DownRight:
-							cout << "Ｋ";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "Ｋ");
 							break;
 						case ArrowModify::LeftUPWall:
-							cout << "旨";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "旨");
 							break;
 						case ArrowModify::UpWall:
-							cout << "收收";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "收");
 							break;
 						case ArrowModify::RightUPWall:
-							cout << "旬";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "旬");
 							break;
 						case ArrowModify::LeftWall:
-							cout << "早";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "早");
 							break;
 						case ArrowModify::LeftDownWall:
-							cout << "曲";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "曲");
 							break;
 						case ArrowModify::RightDownWall:
-							cout << "旭";
+							SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "旭");
 							break;
 						default:
-							cout << "  ";
+							//SceneManager::GetInstance().ScreenPrint(position->x + j, position->y + i, "  ");
 							break;
 						}
 					}
@@ -209,23 +195,6 @@ void Arrow::Render()
 
 void Arrow::Release()
 {
-	int i, j;
-	*position = *newPosition;
-	static Vector2 vec = *SceneManager::GetInstance().pos;
-	static Vector2 vec2 = *SceneManager::GetInstance().WH;
-	for (i = 0; i < v.size(); i++)
-	{
-		for (j = 0; j < v[i].size(); j++)
-		{
-			if (position->y + i+1 > vec.y && position->y < position->y-1 + i< vec.y + vec2.y
-				&& position->x + j - 1> vec.x && position->x + j + 1 < vec.x + vec2.x)
-			{
-
-			GotoxyPlayer(position->x + j, position->y + i);
-			cout << "  ";
-			}
-		}
-	}
 }
 
 
@@ -242,6 +211,8 @@ wstring Arrow::SetArrowModify(ArrowMod mod)
 	case ArrowMod::WaSans:
 		return L"WaSans";
 		break;
+	case ArrowMod::SAS:
+		return L"SAS";
 	default:
 		break;
 	}

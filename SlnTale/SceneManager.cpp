@@ -1,51 +1,41 @@
 #include "stdafx.h"
-#include "player.h"
 #include "SceneManager.h"
-#include "ArrowManager.h"
-///┏━━━━━━━━━━━━━━━━━━━━━┓ 
-///┃                     ┃
-///┃                     ┃
-///┃                     ┃
-///┃                     ┃
-///┃                     ┃
-///┃                     ┃
-///┃                     ┃
-///┃                     ┃
-///┃                     ┃
-///┃                     ┃
-///┃                     ┃
-///┃                     ┃
-///┃                     ┃
-///┃                     ┃
-///┃                     ┃
-///┗━━━━━━━━━━━━━━━━━━━━━┛
+#include "Scene.h"
+#include "GameScene.h"
 
-//4444444444444444444444444444444444444444444444444444444444444444444444
-//4444444444444444444444444444444444444444444444444444444444444444444444
-//4444444444444444444444444444444444444444444444444444444444444444444444
-//4444444444444444444444444444444444444444444444444444444444444444444444
-//4444444444444444444444444444444444444444444444444444444444444444444444
-//0000044444444444444400000000004444400000000000044444400000000000000000
-//0000000444444444440000000000004444400000000000004444000000000000000000
-//0000000004444444000000000000000000000000000000004444000000000000000000
-//0000000000000000000000000000000000000000000000004444000000000000000000
-//0000000000000000000000000000000000000000000000004444000000000000000000
-//0000000000000000000000000000000000000010000000004444000000000000000000
-//0000000000000000000000000000000000000010000000004444000000000000000000
-//0000000000000000000000000000000000000011000000004444000000000000000000
-//0000000000000000000000000000000000000011000000004444000000000000000000
-//0000000000001000000000000000000000000011000000000000000000000000000000
-//0000000000011110000000000000000000000011000000000000000000000000000000
-//0000000001111111100000000000000000000111100000000000000111000000000000
-//0000000011111111110000000000000000000111100000000000000111000000000000
-//1111111111111111111111111111111111111111111111111111111111111111111111
-//1111111111111111111111111111111111111111111111111111111111111111111111
-//1111111111111111111111111111111111111111111111111111111111111111111111
-//1111111111111111111111111111111111111111111111111111111111111111111111
-//1111111111111111111111111111111111111111111111111111111111111111111111
+
+
+
 
 
 #define _CRT_SECURE_NO_WARNINGS
+
+
+
+void SceneManager::RegisterScene(const wstring& sceneName, shared_ptr<Scene> scene)
+{
+	if (sceneName.empty() || scene == NULL)
+		return;
+
+	m_sceneContainer.insert(m_sceneContainer.end(), pair<wstring, shared_ptr<Scene>>(sceneName, scene));
+}
+
+void SceneManager::LoadScene(const wstring& sceneName)
+{
+	if (m_activeScene != NULL)
+	{
+		m_activeScene->Release();
+		m_activeScene = NULL;
+	}
+
+	auto it = m_sceneContainer.find(sceneName);
+	if (it != m_sceneContainer.end())
+	{
+		m_activeScene = it->second;
+		m_activeScene->Init();
+	}
+}
+
 void SceneManager::Init()
 {
 	CONSOLE_CURSOR_INFO cci;
@@ -59,121 +49,49 @@ void SceneManager::Init()
 	SetConsoleCursorInfo(g_hScreen[0], &cci);
 	SetConsoleCursorInfo(g_hScreen[1], &cci);
 
-	SetMap();
-	Scenes();
-	Vector2 vec = *WH / 2;
-	vec += *pos;
-	_player = new player(vec);
-	_player->Init();
-	GET_SINGLE(Timer)->Init();
-	GET_SINGLE(ArrowManager)->Init();
+	//if (m_activeScene != nullptr)
+	//{
+	//	m_activeScene->Init();
+	//}
 
-	Vector2 posed = *pos;
-	posed.x -= 10;
-	//GET_SINGLE(ArrowManager)->NormalArrowSommon(posed, Vector2(1, 0), 0.005f, 100, 60, ArrowMod::WaSans);
-	posed.x += 20;
-	GET_SINGLE(ArrowManager)->NormalArrowSommon(posed, Vector2(-1, 0), 0.2f, 100, 600, ArrowMod::WaSans);
-	
+
+
 }
 
 void SceneManager::Update()
 {
-	GET_SINGLE(Timer)->Update();
-	GET_SINGLE(ArrowManager)->Update();
-	_player->Update();
 	rendering += GET_SINGLE(Timer)->DeltaTime();
-	//man->Update();
+	GET_SINGLE(Timer)->Update();
+	if (m_activeScene != nullptr)
+	{
+		m_activeScene->Update();
+	}
 }
 
 void SceneManager::Render()
 {
-
-	if (renderSpeed < rendering)
+	if(renderSpeed < rendering) // 출력 코드
 	{
-		GET_SINGLE(ArrowManager)->Render();
-		_player->Render();
+		g_numOfFPS = g_numOfFrame;
+		g_numOfFrame = 0;
 		rendering = 0;
+
 	}
-	//Scenes();
 
-	//ScreenClear();
 
-	//if(renderSpeed < rendering) // 출력 코드
-	//{
-	//	g_numOfFPS = g_numOfFrame;
-	//	g_numOfFrame = 0;
-	//}
-	//sprintf_s(FPSTextInfo, 128, "FPS : %d", g_numOfFPS);
-	//ScreenPrint(0, 0, FPSTextInfo);
-	//g_numOfFrame++;
-
-	//ScreenFlipping();
-
-	//man->Render();
-	//Scenes();
+	ScreenFlipping();
+	if (m_activeScene != nullptr)
+	{
+		m_activeScene->Render();
+	}
 
 }
 
 void SceneManager::Release()
 {
-}
-
-void SceneManager::Scenes()
-{
-	pos = new Vector2(20, 32);
-	int i, j;
-	for (i = 0; i < v.size(); i++)
+	if (m_activeScene != nullptr)
 	{
-		Gotoxy(pos->x + pos->x + 1, pos->y + i);
-		for (j = 0; j < v[i].size(); j++)
-		{
-			switch ((walls)v[i][j])
-			{
-			case walls::LeftUP:
-				cout << "┏";
-				break;
-			case walls::Up:
-				cout << "━━";
-				break;
-			case walls::RightUP:
-				cout << "┓";
-				break;
-			case walls::Left:
-				cout << "┃";
-				break;
-			case walls::LeftDown:
-				cout << "┗";
-				break;
-			case walls::RightDown:
-				cout << "┛";
-				break;
-			default:
-				cout << "  ";
-				break;
-			}
-		}
-		cout << endl;
+		m_activeScene->Release();
 	}
 }
 
-
-void SceneManager::SetMap()
-{
-	string line;
-	ifstream file("map1.txt");
-	int t = 0;
-	if (file.is_open())
-	{
-		while (getline(file, line))
-		{
-			for (int i = 0; i < line.size(); i++) 
-			{
-				v2.push_back(line[i] - '0');
-			}
-			t++;
-			v.push_back(v2);
-			v2.clear();
-		}
-		WH = new Vector2(line.size(), t);
-	}
-}

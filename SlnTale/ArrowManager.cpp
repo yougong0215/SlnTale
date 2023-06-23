@@ -13,8 +13,6 @@ void ArrowManager::Update()
 	list<shared_ptr<Arrow>>::iterator iter;
 	for (iter = _arrowed.begin(); iter != _arrowed.end();)
 	{
-		GotoxyPlayer(0, 10);
-		cout << i++;
 		(*iter)->Update();
 
 		if ((*iter)->LifeTime < 0)
@@ -44,8 +42,6 @@ void ArrowManager::Render()
 
 void ArrowManager::Release()
 {
-	if (_arrowed.empty())
-		return;
 	list<shared_ptr<Arrow>>::iterator iter;
 	for (iter = _arrowed.begin(); iter != _arrowed.end(); ++iter)
 	{

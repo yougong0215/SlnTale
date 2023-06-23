@@ -42,7 +42,9 @@ void player::Update()
 		SetModify(PlayerMode::gravity);
 
 
-	static Vector2 vec = *SceneManager::GetInstance().pos;
+	static Vector2 vec = *SceneManager::GetInstance().pos();
+
+	static Vector2 vec2 = *SceneManager::GetInstance().WH();
 
 	Gravity(vec);
 
@@ -59,22 +61,22 @@ void player::Update()
 			if (GetAsyncKeyState(VK_UP) & 0x8000)
 			{
 
-				if (position->y > 0 && SceneManager::GetInstance().v[position->y - vec.y - 1][position->x - vec.x] == 0)
+				if (position->y > 0 && SceneManager::GetInstance().v()[position->y - vec.y - 1][position->x - vec.x] == 0)
 					newPosition->y -= 1;
 			}
 			if (GetAsyncKeyState(VK_LEFT) & 0x8000)
 			{
-				if (position->x > 0 && SceneManager::GetInstance().v[position->y - vec.y][position->x - vec.x - 1] == 0)
+				if (position->x > 0 && SceneManager::GetInstance().v()[position->y - vec.y][position->x - vec.x - 1] == 0)
 					newPosition->x -= 1;
 			}
 			if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 			{
-				if (position->x < WIDTHMAX && SceneManager::GetInstance().v[position->y - vec.y][position->x - vec.x + 1] == 0)
+				if (position->x < vec2.x + vec.x && SceneManager::GetInstance().v()[position->y - vec.y][position->x - vec.x + 1] == 0)
 					newPosition->x += 1;
 			}
 			if (GetAsyncKeyState(VK_DOWN) & 0x8000)
 			{
-				if (position->y < HEIGHTMAX && SceneManager::GetInstance().v[position->y - vec.y + 1][position->x - vec.x] == 0)
+				if (position->y < HEIGHTMAX && SceneManager::GetInstance().v()[position->y - vec.y + 1][position->x - vec.x] == 0)
 					newPosition->y += 1;
 			}
 
@@ -84,7 +86,7 @@ void player::Update()
 			if (GetAsyncKeyState(VK_UP) & 0x8000)
 			{
 
-				if (gravityInput < jumptime && position->y > 0 && SceneManager::GetInstance().v[position->y - vec.y - 1][position->x - vec.x] == 0)
+				if (gravityInput < jumptime && position->y > 0 && SceneManager::GetInstance().v()[position->y - vec.y - 1][position->x - vec.x] == 0)
 				{
 					newPosition->y -= 1;
 				}
@@ -97,12 +99,12 @@ void player::Update()
 
 			if (GetAsyncKeyState(VK_LEFT) & 0x8000)
 			{
-				if (position->x > 0 && SceneManager::GetInstance().v[position->y - vec.y][position->x - vec.x - 1] == 0)
+				if (position->x > 0 && SceneManager::GetInstance().v()[position->y - vec.y][position->x - vec.x - 1] == 0)
 					newPosition->x -= 1;
 			}
 			if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
 			{
-				if (position->x < WIDTHMAX && SceneManager::GetInstance().v[position->y - vec.y][position->x - vec.x + 1] == 0)
+				if (position->x < vec2.x + vec.x && SceneManager::GetInstance().v()[position->y - vec.y][position->x - vec.x + 1] == 0)
 					newPosition->x += 1;
 			}
 
@@ -119,16 +121,18 @@ void player::Update()
 
 void player::Render()
 {
-	if (oldhp != hp)
-	{
-		oldhp = hp;
-		Gotoxy(55, 57);
-		cout << "┏━━━━━━━━━━━━━━━━┓" << endl;
+
+
+		SceneManager::GetInstance().ScreenPrint(55, 57, "┏━━━━━━━━━━━━━━━━┓");
 		Gotoxy(55, 58);
-		cout << "┃ HP : " << hp << "/" << maxhp << "\t┃" << endl;
-		Gotoxy(55, 59);
-		cout << "┗━━━━━━━━━━━━━━━━┛";
-	}
+		string a = "┃ HP : ";
+		a += to_string(hp);
+		a += " / ";
+		a += to_string(maxhp);
+		a += "\t┃";
+		SceneManager::GetInstance().ScreenPrint(55, 58, a);
+		SceneManager::GetInstance().ScreenPrint(55, 59, "┗━━━━━━━━━━━━━━━━┛");
+	
 
 	//if(infintyTime < 0)
 	//if (*newPosition == *position)
@@ -161,7 +165,7 @@ void player::Gravity(Vector2& vec)
 		{
 			gravitymove += GET_SINGLE(Timer)->DeltaTime();
 			gravityInput += GET_SINGLE(Timer)->DeltaTime();
-			if (gravitymove > gravitySpeed && gravityInput >= jumptime && position->y < HEIGHTMAX && SceneManager::GetInstance().v[position->y - vec.y + 1][position->x - vec.x] == 0)
+			if (gravitymove > gravitySpeed && gravityInput >= jumptime && position->y < HEIGHTMAX && SceneManager::GetInstance().v()[position->y - vec.y + 1][position->x - vec.x] == 0)
 			{
 				gravitymove = 0;
 				newPosition->y += 1;
@@ -169,7 +173,7 @@ void player::Gravity(Vector2& vec)
 		}
 
 
-		if (position->y < HEIGHTMAX && SceneManager::GetInstance().v[position->y - vec.y + 1][position->x - vec.x] == 0)
+		if (position->y < HEIGHTMAX && SceneManager::GetInstance().v()[position->y - vec.y + 1][position->x - vec.x] == 0)
 		{
 			jumpinged = true;
 		}
@@ -198,23 +202,20 @@ void player::SetModify(PlayerMode mod)
 
 void player::PlayerRender()
 {
-	GotoxyPlayer(position->x, position->y);
-	cout << "  ";
 
-	GotoxyPlayer(newPosition->x, newPosition->y);
 	switch (modify)
 	{
 	case PlayerMode::fly:
-		SetColor((int)COLOR::RED, (int)COLOR::BLACK);
+		SceneManager::GetInstance().ScreenPrint(newPosition->x, newPosition->y, "♥", COLOR::RED);
+
 		break;
 	case PlayerMode::gravity:
-		SetColor((int)COLOR::BLUE, (int)COLOR::BLACK);
+		SceneManager::GetInstance().ScreenPrint(newPosition->x, newPosition->y, "♥", COLOR::BLUE);
 		break;
 	default:
 		break;
 	}
-	cout << "♥";
-	SetColor((int)COLOR::WHITE, (int)COLOR::BLACK);
+	//SceneManager::GetInstance().ScreenPrint(newPosition->x, newPosition->y, "♥");
 
 	*position = *newPosition;
 }

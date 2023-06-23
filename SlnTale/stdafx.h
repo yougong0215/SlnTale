@@ -8,6 +8,7 @@
 #include <fstream>
 #include <list>
 #include <memory>
+#include <Windows.h>
 
 //#include <mmsystem.h>
 //////////////////////////////
@@ -16,7 +17,7 @@
 #pragma comment(lib, "user32")
 
 
-#define WIDTHMAX 117
+#define WIDTHMAX 127
 
 #define HEIGHTMAX 65
 
@@ -45,6 +46,19 @@ public:							\
 
 
 using namespace std;
+
+
+
+
+
+enum class ArrowMod
+{
+	normal = 0,
+	shipja,
+	WaSans,
+	SAS,
+};
+
 
 enum class Tag
 {

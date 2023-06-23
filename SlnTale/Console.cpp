@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Console.h"
 
 #define STDOUTHND GetStdHandle(STD_OUTPUT_HANDLE)
@@ -21,7 +22,7 @@ void Gotoxy(int x, int y)
 
 }
 
-void GotoxyPlayer(int x, int y)
+void GotoxyPlayer(int x, int y) //  
 {
 	COORD cur = { x * 2, y };
 
